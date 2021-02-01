@@ -171,10 +171,7 @@ class InProcessKernelClient(KernelClient):
             raise RuntimeError('Cannot send request. No kernel exists.')
 
         stream = kernel.shell_stream
-        self.session.send(stream, msg)
-        msg_parts = stream.recv_multipart()
-        kernel.dispatch_shell(msg_parts)
-
+        kernel.dispatch_shell(msg)
         idents, reply_msg = self.session.recv(stream, copy=False)
         self.shell_channel.call_handlers_later(reply_msg)
 
